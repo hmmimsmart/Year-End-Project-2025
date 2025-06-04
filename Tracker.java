@@ -26,5 +26,6 @@ public class Tracker extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Tracker::new);
+        System.out.println("i love men");
     }
 }
