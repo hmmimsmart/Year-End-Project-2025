@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Tracker extends JFrame {
 
@@ -8,12 +10,12 @@ public class Tracker extends JFrame {
     private JButton button;
 
     public Tracker() {
-        setTitle("Tracker App");
+        setTitle("Budget Tracker");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLayout(new BorderLayout());
 
-        label = new JLabel("Tracker", SwingConstants.CENTER);
+        label = new JLabel("Enter your budget log:", SwingConstants.CENTER);
         textArea = new JTextArea(5, 30);
         button = new JButton("Submit");
 
@@ -21,11 +23,18 @@ public class Tracker extends JFrame {
         add(new JScrollPane(textArea), BorderLayout.CENTER);
         add(button, BorderLayout.SOUTH);
 
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String input = textArea.getText();
+                System.out.println("User Input: " + input);
+                textArea.setText(""); // Clear after input
+            }
+        });
+
         setVisible(true);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Tracker::new);
-        System.out.println("i love men");
     }
 }
