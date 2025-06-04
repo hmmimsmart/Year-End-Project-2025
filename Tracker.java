@@ -1,13 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.*;
+import java.nio.file.*;
 
 public class Tracker extends JFrame {
 
     private JLabel label;
     private JTextArea textArea;
     private JButton button;
+
+    private static final String FILE_NAME = "budget_log.txt";
 
     public Tracker() {
         setTitle("Budget Tracker");
@@ -25,13 +28,24 @@ public class Tracker extends JFrame {
 
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String input = textArea.getText();
-                System.out.println("User Input: " + input);
-                textArea.setText(""); // Clear after input
+                String input = textArea.getText().trim();
+                if (!input.isEmpty()) {
+                    saveToFile(input);
+                    textArea.setText("");
+                }
             }
         });
 
         setVisible(true);
+    }
+
+    private void saveToFile(String data) {
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(FILE_NAME), StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
+            writer.write(data);
+            writer.newLine();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error writing to file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void main(String[] args) {
